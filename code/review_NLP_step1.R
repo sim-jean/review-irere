@@ -18,26 +18,10 @@ rm(list=ls())
 ######### I. DATA FORMATING ####################################################################
 
 ####### A. Load data ###########################################################################
-df2_ready             <- read_excel("data_cleared.xlsx")
+df2_ready             <- read_excel("data/data_cleared.xlsx")
 
-##### i. Original data ######
-full_bib              <- read_rtf("base.rtf")
-#full_bib              <- read_rtf("base_test.rtf")
-full_bib              <- strsplit(full_bib,"@") # Separate each article into a list
-# Slight modification for what comes next : 
-# resources   -> resource
-# models      -> model
-# systems     -> system
-# unevenaged  -> uneven-aged
-# values      -> value
-# zones       -> zone
-# costs       -> cost
-# harvesting  -> harvest
-# dynamics    -> dynamic
-# economics   -> economic
-# strategies  -> strategy
-# REMOVE DIFFERENT
-##### ii. Modified data #####
+
+##### i. Modified data #####
 # endangered-species
 # bio-economic
 # invasive-species
@@ -49,7 +33,7 @@ full_bib              <- strsplit(full_bib,"@") # Separate each article into a l
 # optimal-management
 # landuse
 # property rights
-full_bib_mod          <- read_rtf("base_modified.rtf")
+full_bib_mod          <- read_rtf("data/base_modified.rtf")
 #full_bib_mod          <- read_rtf("base_test_modified.rtf")
 full_bib_mod          <- strsplit(full_bib_mod, "@")
 

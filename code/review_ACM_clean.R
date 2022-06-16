@@ -260,7 +260,7 @@ ggsave("outputs/kmodes_elbow.pdf", plot=withindiff_plot, units='cm',height=8, wi
 
 
 ####### B. Initialize modes to study stability ####
-source("review_NLP_kmodes_selection.R")
+source("code/review_NLP_kmodes_selection.R")
 
 ggMarginal(initial_modes_1, type="histogram") # Not too bad - Ok
 ggMarginal(initial_modes_2, type="histogram") # Not too bad either - Ok
@@ -286,7 +286,7 @@ kmodes9                  <- as.factor(try9$cluster)
 kmodes_result            <- as.factor(try$cluster)
 df2_ready$kmodes_result  <- kmodes_result
 
-write_xlsx(df2_ready, "data_cleared_post_ACM.xlsx")
+write_xlsx(df2_ready, "data/data_cleared_post_ACM.xlsx")
  df2_ready$kmodes9        <- kmodes9
 #### IV. Graphical representation ####
 ####### A. Analysis ####
@@ -306,14 +306,14 @@ fviz_mca_var(res.mca2, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE, # avoid text overlapping (slow)
              ggtheme = theme_minimal())
-ggsave("mca_var_automated_supplementary.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_var_automated_supplementary.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_mca_var(res.mca2, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE, # avoid text overlapping (slow)
              ggtheme = theme_minimal(), 
              axes = c(1,3))
-ggsave("mca_var_automated_supplementary_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_var_automated_supplementary_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 ####### C. Individuals #####
 fviz_mca_ind (res.mca2,
@@ -322,7 +322,7 @@ fviz_mca_ind (res.mca2,
               palette = colors_kmodes,
               addEllipses = TRUE, ellipse.type = "confidence",
               ggtheme = theme_minimal (), title= " ")+ xlab('Dimension 1 : 20.9%')+ ylab('Dimension 2 : 10%')
-ggsave("mca_ind_automated_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_ind_automated_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_mca_ind (res.mca9,
               label = "ind", # masquer le texte des individus
@@ -330,7 +330,7 @@ fviz_mca_ind (res.mca9,
               palette = "ucscgb",
               addEllipses = TRUE, ellipse.type = "confidence",
               ggtheme = theme_minimal (), title= " ")+ xlab('Dimension 1 : 20.9%')+ ylab('Dimension 2 : 10%')
-ggsave("mca_ind_automated_kmodes9.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_ind_automated_kmodes9.pdf", plot=last_plot(), units="cm", width=30, height=18)
 fviz_mca_ind (res.mca2,
               label = "ind", # masquer le texte des individus
               habillage = kmodes_result,
@@ -338,20 +338,20 @@ fviz_mca_ind (res.mca2,
               addEllipses = TRUE, ellipse.type = "confidence",
               ggtheme = theme_minimal (), 
               axes = c(1,3))
-ggsave("mca_ind_automated_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_ind_automated_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 
 ####### D. Compared kmodes and pre-specified groups ####
 fviz_ellipses(res.mca2, c("kmodes_result", "keywords"),
               geom = "point", 
               palette=c(colors_kmodes, colors_review))
-ggsave("mca_automated_keywords_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_automated_keywords_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_ellipses(res.mca2, c("kmodes_result", "keywords"),
               geom = "point", 
               palette=c(colors_kmodes, colors_review), 
               axes = c(1,3))
-ggsave("mca_automated_keywords_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+ggsave("outputs/mca_automated_keywords_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 #### V. Temporal representation of kmodes-cluster ####
 ###### A. Data prep   #######
@@ -424,6 +424,6 @@ time_distrib <- plot+stat_smooth(method='loess',aes(colour=Group),size=1, se=F)+
         panel.background = element_rect(fill = "white"))+ grids(linetype="solid")+
   labs(title=" ", y="Freq.", x="")+ylim(0,0.02)
 
-ggsave("temporal_distribution_kmodes.pdf", plot=time_distrib, units="cm",width=30, height=18)
+ggsave("outputs/temporal_distribution_kmodes.pdf", plot=time_distrib, units="cm",width=30, height=18)
 
 
