@@ -29,7 +29,7 @@ library(RColorBrewer)
 
 ##### I. DATA LOADING AND CLEANING ########
 colors_kmodes         <- c('1'="darkorchid3", "2"="forestgreen", "3"="gold", "4"="black")
-full_bib_mod          <- read_rtf("base_modified.rtf")
+full_bib_mod          <- read_rtf("data/base_modified.rtf")
 #full_bib_mod          <- read_rtf("base_test_modified.rtf")
 full_bib_mod          <- strsplit(full_bib_mod, "@")
 
@@ -116,10 +116,10 @@ data_text_mod         <- tm_map(data_text_mod, removeWords, my_stopwords)
 data_text_mod         <- VCorpus(VectorSource(text_ee_mod))
 
 ## LOAD EXISTING DATA ####
-article_cluster_mod <- read_excel("article_cluster_mod.xlsx")
+article_cluster_mod <- read_excel("data/article_cluster_mod.xlsx")
 colnames(article_cluster_mod) <- c("title","index","og_cluster","mod_cluster")
 
-df2_ready           <- read_excel("data_cleared_post_ACM.xlsx") %>% subset(Journal !="Environmental Modelling & Assessment")
+df2_ready           <- read_excel("data/data_cleared_post_ACM.xlsx") %>% subset(Journal !="Environmental Modelling & Assessment")
 
 ### Worddcloud for presentation
 toofreq            <- pull(freq_words_mod[1:10,1])
@@ -176,11 +176,11 @@ for(j in c(5,7,10,15,20,25,30,50,100,200)){
     # Graph the distribution and save it
     graph_mod           <- set %>% ggplot(aes(reorder(term, -occurences),occurences))+
       geom_bar(stat = "identity")+theme(axis.text.x = element_text(angle=45))+labs(title = paste0("Top ",j," occurences for cluster : ", i))
-    ggsave(paste0("occurences_kmodes_",i,"_n",j,".pdf"), plot=graph_mod, width=15, height=10)
+    ggsave(paste0("outputs/occurences_kmodes_",i,"_n",j,".pdf"), plot=graph_mod, width=15, height=10)
     print(graph_mod)
     dev.off()
     # Assign the data set for further analysis
-    assign(paste0("occurences_kmodes_",i,"_n",j),graph_mod)
+    assign(paste0("outputs/occurences_kmodes_",i,"_n",j),graph_mod)
     set                 <- set %>% top_n(n = j, wt=occurences) %>% mutate(cluster = i)
     assign(paste0("data_kmodes_occ_",i,"_n",j), set)
   }
@@ -256,7 +256,7 @@ for(j in 1:4){
     labs(title = paste0("Cluster : ", j)) + xlab(" ")+theme(legend.position = "none")
   
   assign(paste0("data_kmodes_occ",j,"_n50"),set)
-  ggsave(paste0("occurence_kmodes_",j,"_n50_common.pdf"), plot=graph, width=15, height=9)
+  ggsave(paste0("outputs/occurence_kmodes_",j,"_n50_common.pdf"), plot=graph, width=15, height=9)
 }
 
 lex_agri       <- c("Agriculture", "agriculture", "agricultural", "crop", "rangeland", "livestock", "forage", 
@@ -418,7 +418,7 @@ table_lex_kmodes            <- table_lex_kmodes %>% mutate(agri_share = agri/sum
                                                            mathapp_share    = math_applied/sum(math_applied),
                                                            harvesting_share = harvesting/sum(harvesting),
                                                            conservation_share = conservation/sum(conservation))
-write_xlsx(table_lex_kmodes, "table_lexical_groups_cluster_mod_lauriane.xlsx")
+write_xlsx(table_lex_kmodes, "data/table_lexical_groups_cluster_mod_lauriane.xlsx")
 table_lex_kmodes$cluster     <- as.character(table_lex_kmodes$cluster)
 
 
@@ -451,7 +451,7 @@ for(i in 1:4){
                axis.line = element_line(color='darkgrey',linetype="solid"))+ylab(" ")+xlab(" ")+
     labs(title= " ")+ylim(0,0.9)
   assign(paste0("data_graph_col_",i),intercept_graph)
-  ggsave(paste0("lexical_profile_cluster_kmodes_",i,".pdf"), plot=graph, width=10, height=7)
+  ggsave(paste0("outputs/lexical_profile_cluster_kmodes_",i,".pdf"), plot=graph, width=10, height=7)
 }
 
 ggarrange()
