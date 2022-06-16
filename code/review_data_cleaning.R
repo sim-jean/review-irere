@@ -1,7 +1,7 @@
 ######################################################################################################################
 ############## REVIEW : DATA COLLECTION AND CLEANING #################################################################
 ######################################################################################################################
-setwd("/Users/simonjean/Desktop/PhD/Projects/Review_Lauriane/Code")
+setwd("/Users/simonjean/Desktop/PhD/Projects/Review_Lauriane/Code_data")
 rm(list=ls())
 
 ### 0. Package set-up ####
@@ -15,8 +15,8 @@ invisible(lapply(required_packages, library, character.only = TRUE))
 ### I. Data cleaning
 ##################################################################################################################
 ####### A. Import #####
-df2  <- read_excel("papers_database_v2.xlsx", skip = 1)
-df2b <- read_excel("papers_database_v2b.xlsx", skip=1)
+df2  <- read_excel("data/papers_database_v2.xlsx", skip = 1)
+df2b <- read_excel("data/papers_database_v2b.xlsx", skip=1)
 ####### B. Formating ####
 # Rename variables for ease of computation #
 df2 <-df2 %>% dplyr::rename(paper_country                = `Paper country`,
@@ -126,7 +126,7 @@ for(i in 1:length(biodiversity_aggregate)){
   biodiversity_ag[i,1]       <- tolower(biodiversity_aggregate[[i]][1])
   biodiversity_ag[i,2]       <- tolower(biodiversity_aggregate[[i]][2])
 }
-
+# Assign kingdom, class, order, subgroup of species for all species mentioned
 biodiv_1                     <- data.frame(0,0,0,0)
 biodiv_1_1                   <- strsplit(biodiversity_ag$biodiv_type_large, " - ")
 for(i in 1:length(biodiv_1_1)){
@@ -161,5 +161,5 @@ df2_ready$affiliation_class  <- recode(df2_ready$affiliation_class,
 
 ## Data storage #####
 
-write_xlsx(df2_ready, path="/Users/simonjean/Desktop/PhD/Projects/Review_Lauriane/Code/data_cleared.xlsx")
+write_xlsx(df2_ready, path="/Users/simonjean/Desktop/PhD/Projects/Review_Lauriane/Code_data/data/data_cleared.xlsx")
 
