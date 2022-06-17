@@ -10,7 +10,7 @@ We provide a cartography of 319 bioeconomic models applied to terrestrial habita
 
 For easy access to our paper, please find the it here: https://tinyurl.com/y7p87uau
 
-## Instruction for replication
+## Instructions for replication
 
 Necessary data are : 
 - df2.xlsx and df2.xlsx for the database of articles.
