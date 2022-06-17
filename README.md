@@ -14,7 +14,9 @@ For easy access to our paper, please find the it here: https://tinyurl.com/y7p87
 
 Necessary data are : 
 - df2.xlsx and df2.xlsx for the database of articles.
-  The database is shared under CC-BY-SA licence. 
+  The database is shared under Creative Commons licence (see https://zenodo.org/record/6656433#.Yqxw7aC3seE.link)
+  Please note that additional data regarding the living species considered, a finer geographic scale for authors etc. are featured in the database
+  
 - base_modified.rtf for the words from titles, keywords and abstracts of articles in the database
 
 Run the R scripts to obtain the results from the paper and additional analysis
