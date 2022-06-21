@@ -38,8 +38,8 @@ zone_count_mixed[,3]                 <- zone_count_mixed[,2] / sum(zone_count_mi
 colnames(zone_count_mixed)           <- c("lbls","count",'share')
 
 zone_count_b                         <- zone_count_b %>% mutate(
-                                                                share_round = as.numeric(format(round(share,2)))*100,
-                                                                share_round2 = ifelse(share_round>1,share_round, NA))
+  share_round = as.numeric(format(round(share,2)))*100,
+  share_round2 = ifelse(share_round>1,share_round, NA))
 pie                                  <- ggplot(zone_count_b, aes(x="", y=share, fill=lbls))+ geom_bar(stat="identity")+coord_polar("y", start=0)+scale_fill_pander()
 pie                                  <- pie + labs(x = NULL, y = NULL, fill = NULL, title = " ")
 pie                                  <- pie + theme_classic() + theme(axis.line = element_blank(),
@@ -48,8 +48,8 @@ pie                                  <- pie + theme_classic() + theme(axis.line 
 )
 pie                                  <- pie+ theme(plot.title = element_text(size=18))
 pie+ geom_label(aes(label = share_round2), color = "white",
-           position = position_stack(vjust = 0.5),
-           show.legend = FALSE) +labs(title="Geographical distribution of articles")+
+                position = position_stack(vjust = 0.5),
+                show.legend = FALSE) +labs(title="Geographical distribution of articles")+
   theme(plot.title = element_text(hjust = 0.5))
 
 #ggsave("outputs/pie_geographic_whole_base_method1.pdf", plot=pie, units="cm",width=20, height=13)
@@ -135,7 +135,7 @@ distribution_journals %>% ggplot(aes(x="",y=Freq,fill=Var1))+
         axis.ticks = element_blank())+ 
   labs(x = NULL, y = NULL, fill = NULL, title = " Field of publication of the articles ")+
   theme(plot.title = element_text(hjust = 0.5))
-  
+
 unique(df2_ready$journals_2)
 
 intermediate                                            <- df2_ready %>% subset(journals_2=="Economics")
