@@ -122,13 +122,13 @@ opti_var_plot_data         <- rbind(opti_var_plot_data,opti) # row-bind the two 
 variance_variables         <- ggplot(opti_var_plot_data, aes(x=number_var))+geom_line(aes(y=variance_explained, color=min_max))+geom_point(aes(y=variance_explained, color=min_max), shape=2, size=2)+
   theme_classic() +
   labs(x = "Number of variables", y = "Explained Variance (%)", fill = NULL, title = " ", color=" ")
-ggsave("outputs/variables_variance_enveloppe.pdf",plot=variance_variables,units="cm", width=14, height=8)
+#ggsave("outputs/variables_variance_enveloppe.pdf",plot=variance_variables,units="cm", width=14, height=8)
 # Plot enveloppe
 
 all_variance_variables     <- ggplot(optimal_variables_selection, aes(x=V3,y=V2))+geom_point(size=0.5, shape=4)+ # Plot overall - points plus petits
   theme_classic() +
   labs(x = "Number of variables", y = "Explained Variance (%)", fill = NULL, title = " ", color=" ")
-ggsave("outputs/variables_variance_all.pdf", plot=all_variance_variables, units="cm", width=14, height=8)
+#ggsave("outputs/variables_variance_all.pdf", plot=all_variance_variables, units="cm", width=14, height=8)
 ######### v.   Variable selection ######
 ### Must have a minimal number of variables : 
 
@@ -195,7 +195,7 @@ fviz_mca_var(res.mca2, col.var = "contrib",
              repel = TRUE, # avoid text overlapping (slow)
              ggtheme = theme_minimal(), title= " ",
 ) + xlab('Dimension 1 : 20.9%')+ ylab('Dimension 2 : 10%')+labs(color="Contribution (squared cosine)")
-ggsave("outputs/mca_variables_automated.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_variables_automated.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_mca_var(res.mca2, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
@@ -203,7 +203,7 @@ fviz_mca_var(res.mca2, col.var = "contrib",
              ggtheme = theme_minimal(), title= " " ,
              axes = c(1,3)
 ) 
-ggsave("outputs/mca_variables_automated_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_variables_automated_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 
 ####### D. Individual articles ######
@@ -217,7 +217,7 @@ fviz_mca_ind (res.mca2,
               ellipse.level=0.95,
               ggtheme = theme_minimal (), 
               title=" ")
-ggsave("outputs/mca_individuals_keywords.pdf", plot=last_plot(), unit="cm", width=40, height=22)
+#ggsave("outputs/mca_individuals_keywords.pdf", plot=last_plot(), unit="cm", width=40, height=22)
 
 fviz_mca_ind (res.mca2,
               label = "ind", # masquer le texte des individus
@@ -228,7 +228,7 @@ fviz_mca_ind (res.mca2,
               ggtheme = theme_minimal (), 
               axes = c(1,3),
               title=" ")
-ggsave("outputs/mca_individuals_keywords_axes1.3.pdf", plot=last_plot(), unit="cm", width=40, height=22)
+#ggsave("outputs/mca_individuals_keywords_axes1.3.pdf", plot=last_plot(), unit="cm", width=40, height=22)
 
 #### III. K-modes clustering on the data #####
 library(klaR)
@@ -256,7 +256,7 @@ write_xlsx(withindiff,"withindiff_kmodes.xlsx")
 }
 withindiff_plot <- withindiff %>% subset(index>=2) %>%ggplot(aes(x=index)) + geom_point(aes(y=value), size=0.5)+scale_color_manual(values=c("red","black"))+
   theme_bw() + xlab('Number of clusters') + ylab("Within sum of squares")+ theme(legend.position='none')
-ggsave("outputs/kmodes_elbow.pdf", plot=withindiff_plot, units='cm',height=8, width=14)
+#ggsave("outputs/kmodes_elbow.pdf", plot=withindiff_plot, units='cm',height=8, width=14)
 
 
 ####### B. Initialize modes to study stability ####
@@ -306,14 +306,14 @@ fviz_mca_var(res.mca2, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE, # avoid text overlapping (slow)
              ggtheme = theme_minimal())
-ggsave("outputs/mca_var_automated_supplementary.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_var_automated_supplementary.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_mca_var(res.mca2, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE, # avoid text overlapping (slow)
              ggtheme = theme_minimal(), 
              axes = c(1,3))
-ggsave("outputs/mca_var_automated_supplementary_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_var_automated_supplementary_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 ####### C. Individuals #####
 fviz_mca_ind (res.mca2,
@@ -322,7 +322,7 @@ fviz_mca_ind (res.mca2,
               palette = colors_kmodes,
               addEllipses = TRUE, ellipse.type = "confidence",
               ggtheme = theme_minimal (), title= " ")+ xlab('Dimension 1 : 20.9%')+ ylab('Dimension 2 : 10%')
-ggsave("outputs/mca_ind_automated_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_ind_automated_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_mca_ind (res.mca9,
               label = "ind", # masquer le texte des individus
@@ -330,7 +330,7 @@ fviz_mca_ind (res.mca9,
               palette = "ucscgb",
               addEllipses = TRUE, ellipse.type = "confidence",
               ggtheme = theme_minimal (), title= " ")+ xlab('Dimension 1 : 20.9%')+ ylab('Dimension 2 : 10%')
-ggsave("outputs/mca_ind_automated_kmodes9.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_ind_automated_kmodes9.pdf", plot=last_plot(), units="cm", width=30, height=18)
 fviz_mca_ind (res.mca2,
               label = "ind", # masquer le texte des individus
               habillage = kmodes_result,
@@ -338,20 +338,20 @@ fviz_mca_ind (res.mca2,
               addEllipses = TRUE, ellipse.type = "confidence",
               ggtheme = theme_minimal (), 
               axes = c(1,3))
-ggsave("outputs/mca_ind_automated_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_ind_automated_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 
 ####### D. Compared kmodes and pre-specified groups ####
 fviz_ellipses(res.mca2, c("kmodes_result", "keywords"),
               geom = "point", 
               palette=c(colors_kmodes, colors_review))
-ggsave("outputs/mca_automated_keywords_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_automated_keywords_kmodes.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 fviz_ellipses(res.mca2, c("kmodes_result", "keywords"),
               geom = "point", 
               palette=c(colors_kmodes, colors_review), 
               axes = c(1,3))
-ggsave("outputs/mca_automated_keywords_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
+#ggsave("outputs/mca_automated_keywords_kmodes_axes1.3.pdf", plot=last_plot(), units="cm", width=30, height=18)
 
 #### V. Temporal representation of kmodes-cluster ####
 ###### A. Data prep   #######
@@ -424,6 +424,6 @@ time_distrib <- plot+stat_smooth(method='loess',aes(colour=Group),size=1, se=F)+
         panel.background = element_rect(fill = "white"))+ grids(linetype="solid")+
   labs(title=" ", y="Freq.", x="")+ylim(0,0.02)
 
-ggsave("outputs/temporal_distribution_kmodes.pdf", plot=time_distrib, units="cm",width=30, height=18)
+#ggsave("outputs/temporal_distribution_kmodes.pdf", plot=time_distrib, units="cm",width=30, height=18)
 
 
