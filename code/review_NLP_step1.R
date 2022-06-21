@@ -171,7 +171,7 @@ wss[optimal_cluster_mod_stem,3]       <- "key"
 
 wss_plot <- wss %>% subset(index>1) %>% ggplot(aes(x=index)) + geom_point(aes(y=value,color=key), size=0.5)+scale_color_manual(values=c("red","black"))+
   theme_bw() + xlab('Number of clusters') + ylab("Within sum of squares")+ theme(legend.position='none')
-ggsave("outputs/wss_modified_data.pdf", plot=wss_plot, units='cm',height=8, width=14)
+#ggsave("outputs/wss_modified_data.pdf", plot=wss_plot, units='cm',height=8, width=14)
 
 }else{ # If the optimal clusters already exists
   optimal_cluster_mod_stem <- as.numeric(clusters[1,2]) #Load as numeric the clusters
