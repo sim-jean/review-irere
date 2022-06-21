@@ -13,7 +13,7 @@ For easy access to our paper, please find it here: https://tinyurl.com/y7p87uau
 ## Instructions for replication
 
 Necessary data are : 
-- df2.xlsx and df2.xlsx for the database of articles.
+- df2.xlsx and df2b.xlsx for the database of articles (in 2 parts)
   The database is shared under Creative Commons licence (see https://zenodo.org/record/6656433#.Yqxw7aC3seE.link)
   
   Please note that additional data regarding the living species considered (according to biological classfication), a finer geographic scale for authors    etc. are featured in the database
