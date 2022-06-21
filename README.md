@@ -15,7 +15,8 @@ For easy access to our paper, please find it here: https://tinyurl.com/y7p87uau
 Necessary data are : 
 - df2.xlsx and df2.xlsx for the database of articles.
   The database is shared under Creative Commons licence (see https://zenodo.org/record/6656433#.Yqxw7aC3seE.link)
-  Please note that additional data regarding the living species considered (according to biological classfication), a finer geographic scale for authors   etc. are featured in the database
+  
+  Please note that additional data regarding the living species considered (according to biological classfication), a finer geographic scale for authors    etc. are featured in the database
   
 - base_modified.rtf for the words from titles, keywords and abstracts of articles in the database
 
