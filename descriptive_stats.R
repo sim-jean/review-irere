@@ -3,6 +3,7 @@
 ##################################################################################################################
 ### I. Graphs ##################################################################################################
 ##################################################################################################################
+df2_ready <- read_excel("data/data_cleared.xlsx")
 ####### A. Distribution of articles across zones #####
 zone_count                           <- as.data.frame(table(df2_ready$paper_zone))
 zone_count$Freq                      <- as.numeric(zone_count$Freq)
@@ -36,17 +37,22 @@ zone_count_mixed[,3]                 <- zone_count_mixed[,2] / sum(zone_count_mi
 
 colnames(zone_count_mixed)           <- c("lbls","count",'share')
 
-
-pie                                  <- ggplot(zone_count_b, aes(x="", y=share, fill=lbls))+ geom_bar(stat="identity")+coord_polar("y", start=0)+scale_fill_economist()
-pie                                  <- pie+geom_text(aes(label = paste0(round(share*100))), position = position_stack(vjust = 0.7), size=7, color="black")
+zone_count_b                         <- zone_count_b %>% mutate(
+                                                                share_round = as.numeric(format(round(share,2)))*100,
+                                                                share_round2 = ifelse(share_round>1,share_round, NA))
+pie                                  <- ggplot(zone_count_b, aes(x="", y=share, fill=lbls))+ geom_bar(stat="identity")+coord_polar("y", start=0)+scale_fill_pander()
 pie                                  <- pie + labs(x = NULL, y = NULL, fill = NULL, title = " ")
 pie                                  <- pie + theme_classic() + theme(axis.line = element_blank(),
                                                                       axis.text = element_blank(),
                                                                       axis.ticks = element_blank()
 )
 pie                                  <- pie+ theme(plot.title = element_text(size=18))
-pie
-ggsave("pie_geographic_whole_base_method1.pdf", plot=pie, units="cm",width=20, height=13)
+pie+ geom_label(aes(label = share_round2), color = "white",
+           position = position_stack(vjust = 0.5),
+           show.legend = FALSE) +labs(title="Geographical distribution of articles")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+#ggsave("outputs/pie_geographic_whole_base_method1.pdf", plot=pie, units="cm",width=20, height=13)
 
 
 pie                                  <- ggplot(zone_count_mixed, aes(x="", y=share, fill=lbls))+ geom_bar(stat="identity")+coord_polar("y", start=0)+scale_fill_economist()
@@ -59,51 +65,25 @@ pie                                  <- pie + theme_classic() + theme(axis.line 
 )
 pie                                  <- pie+ theme(plot.title = element_text(size=18))
 pie
-ggsave("pie_geographic_whole_base_method2.pdf", plot=pie, units="cm",width=20, height=13)
+#ggsave("outputs/pie_geographic_whole_base_method2.pdf", plot=pie, units="cm",width=20, height=13)
 
 
-#### Distribution of groups across zones
-geo_extinction                           <- as.data.frame(table(extinction$paper_zone))
-geo_extinction[,3]                       <- geo_extinction[,2]/sum(df2_ready$keywords2=="Extinction")
-
-geo_conservation                         <- as.data.frame(table(conservation$paper_zone))
-geo_conservation[,3]                     <- geo_conservation[,2]/sum(df2_ready$keywords2=="Conservation")
-
-geo_ecosystem                            <- as.data.frame(table(ecosystem$paper_zone))
-geo_ecosystem[,3]                        <- geo_ecosystem[,2]/sum(df2_ready$keywords2=="Ecosystem")
-
-#geo_invasive                             <- as.data.frame(table(invasive$paper_zone))
-#geo_invasive[,3]                         <- geo_invasive[,2]/sum(df2_ready$keywords2=="Invasive_species_infectious_disease")
-
-
-
-geo_full                                 <- as.data.frame(table(df2_ready$paper_zone))
-geo_full[,3]                             <- geo_full[,2]/nrow(df2_ready)
 
 ####### B. Distribution of articles over time #####
 
-plot                                 <- distrib_time %>% ggplot(aes(x=Year,y=V4, group=Group))
-plot+stat_smooth(method="loess",se=F, aes(colour=Group))
-plot+geom_line(aes(color=Group))
-plot+stat_smooth(method='lm',formula= y~poly(x,10),aes(colour=Group), se=F)+theme(plot.title = element_text(hjust = 0.5))+
-  theme(axis.text.x=element_text(angle =45, vjust=0))+ labs(title=" Distribution of articles in the database ", y="Frequence", x=" Year ")
+distrib_time                         <- as.data.frame(table(df2_ready$Year))
+colnames(distrib_time)               <- c('Year',"Full")
+distrib_time$Year                    <- levels(distrib_time$Year)
+distrib_time$Year                    <- as.numeric(distrib_time$Year)
 
-
-
-time_distrib <- plot+stat_smooth(method='loess',aes(colour=Group),size=1, se=F)+ scale_color_manual(values= colors_review)+
-  theme(axis.text.x=element_text(angle =45, vjust=0),
-        plot.title = element_text(size = 20),
-        panel.background = element_rect(fill = "white"))+ grids(linetype="solid")+
-  labs(title=" ", y="Freq.", x="")+ylim(0,0.02)
-ggsave("temporal_distribution.pdf", plot=time_distrib, units="cm",width=30, height=18)
-
-distrib_time %>% subset(Group=="Full") %>% ggplot(aes(x=Year,y=V4, group=Group))+stat_smooth(method='loess',aes(colour=Group),size=1, se=F)+ scale_color_manual(values= "red")+
+distrib_time %>% ggplot(aes(x=Year,y=Full))+stat_smooth(method='loess',size=1, se=F)+ scale_color_manual(values= "red")+
   theme(axis.text.x=element_text(angle =45, vjust=0),
         plot.title = element_text(size = 20),
         panel.background = element_rect(fill = "white"),
         legend.position = "none")+ grids(linetype="solid")+
-  labs(title=" ", y="Freq.", x="")+ylim(0,0.02)
-ggsave("temporal_distribution_full.pdf", plot=last_plot(), units="cm",width=30, height=18)
+  labs(title="Temporal distribution of articles in the database ",y="", x="")+
+  theme(plot.title = element_text(hjust = 0.5))
+#ggsave("outputs/temporal_distribution_full.pdf", plot=last_plot(), units="cm",width=30, height=18)
 
 
 ####### C. Journals #####
@@ -134,12 +114,28 @@ colnames(table_journal_field)     <- c("Field", "Count", "Percentage")
 table_journal_field <- table_journal_field[order(-table_journal_field$Count),]
 stargazer(table_journal_field, summary=F, rownames=F)
 
-# Table of journals per field - A REFAIRE POUR BIEN S'ADAPTER AUX unique(df2_reayd$journals2)
+# Table of journals per field 
 unique(df2_ready$journals_2)
 df2_ready$journals_2                                     <- dplyr::recode(df2_ready$journals_2,
                                                                           "Sustainable science" = "Sustainability science",
                                                                           "Sustainable Science" = "Sustainability science",
                                                                           "Mathematics"  = "Applied Mathematics")
+
+distribution_journals <- as.data.frame(table(df2_ready$journals_2))%>%mutate(share=Freq/sum(Freq),
+                                                                             share_rounded=paste0(as.numeric(format(round(share,2)))*100,'%'))
+distribution_journals %>% ggplot(aes(x="",y=Freq,fill=Var1))+
+  geom_bar(stat="identity")+
+  coord_polar("y", start=0)+
+  scale_fill_colorblind()+
+  geom_label(aes(label = share_rounded), color = "white",
+             position = position_stack(vjust = 0.55),
+             show.legend = FALSE)+ theme_classic() + 
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank())+ 
+  labs(x = NULL, y = NULL, fill = NULL, title = " Field of publication of the articles ")+
+  theme(plot.title = element_text(hjust = 0.5))
+  
 unique(df2_ready$journals_2)
 
 intermediate                                            <- df2_ready %>% subset(journals_2=="Economics")
