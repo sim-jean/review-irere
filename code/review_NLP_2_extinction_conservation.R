@@ -176,7 +176,7 @@ for(j in c(5,7,10,15,20,25,30,50,100,200)){
     # Graph the distribution and save it
     graph_mod           <- set %>% ggplot(aes(reorder(term, -occurences),occurences))+
       geom_bar(stat = "identity")+theme(axis.text.x = element_text(angle=45))+labs(title = paste0("Top ",j," occurences for cluster : ", i))
-    ggsave(paste0("outputs/occurences_kmodes_",i,"_n",j,".pdf"), plot=graph_mod, width=15, height=10)
+    #ggsave(paste0("outputs/occurences_kmodes_",i,"_n",j,".pdf"), plot=graph_mod, width=15, height=10)
     print(graph_mod)
     dev.off()
     # Assign the data set for further analysis
@@ -256,7 +256,7 @@ for(j in 1:4){
     labs(title = paste0("Cluster : ", j)) + xlab(" ")+theme(legend.position = "none")
   
   assign(paste0("data_kmodes_occ",j,"_n50"),set)
-  ggsave(paste0("outputs/occurence_kmodes_",j,"_n50_common.pdf"), plot=graph, width=15, height=9)
+  #ggsave(paste0("outputs/occurence_kmodes_",j,"_n50_common.pdf"), plot=graph, width=15, height=9)
 }
 
 lex_agri       <- c("Agriculture", "agriculture", "agricultural", "crop", "rangeland", "livestock", "forage", 
@@ -451,7 +451,7 @@ for(i in 1:4){
                axis.line = element_line(color='darkgrey',linetype="solid"))+ylab(" ")+xlab(" ")+
     labs(title= " ")+ylim(0,0.9)
   assign(paste0("data_graph_col_",i),intercept_graph)
-  ggsave(paste0("outputs/lexical_profile_cluster_kmodes_",i,".pdf"), plot=graph, width=10, height=7)
+  #ggsave(paste0("outputs/lexical_profile_cluster_kmodes_",i,".pdf"), plot=graph, width=10, height=7)
 }
 
 ggarrange()
