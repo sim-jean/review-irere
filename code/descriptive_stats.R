@@ -197,3 +197,80 @@ stargazer(table_journals_corpus_field, summary=F, rownames=F)
 stargazer(table_journals_corpus_field2, summary=F, rownames=F)
 
 rm(intermediate, intermediate2, intermediate3)
+
+#
+####################################################################################################################
+### II. Authors ####################################################################################################
+####################################################################################################################
+####### A. Data Cleaning for authors ##################
+df2  <- read_excel("data/papers_database_v2.xlsx", skip = 1)
+df2b <- read_excel("data/papers_database_v2b.xlsx", skip=1)
+
+df2 <- rbind(df2,df2b)
+
+df2 <-df2 %>% dplyr::rename(title = `TItle`,
+                            paper_country                = `Paper country`,
+                            paper_zone                   = `Paper zone`,
+                            field                        =`Dominant field`,
+                            bio_monet                    =`biodiversity is directly monetized`, 
+                            main_method                  = `Cost benefit analysis or cost efficiency`,
+                            biodiv_measure               = `How is biodiversity measured`, # directly monetized in further versions
+                            biodiv_functional_historical = `Is the measure genetic, historic or functional?`,
+                            biodiv_indicator_level       = `Level of the indicator : population, species, ecosystem, genetic)`, 
+                            biodiv_indicator_use         = `What is it used for? Talk about the functions of the system, its stability, its evolution?`,
+                            biodiv_type                  = `What type of biodiversity : birds, bugs…`,
+                            biodiv_objective             = `Biodiversity as an objective function`, 
+                            biodiv_direct                = `Directly :`,
+                            biodiv_proxy                 = `With a proxy : a habitat, a prairie as a proxy for the number of species`,
+                            ess_binary                   = `Ecosystem Services : 1 if theme is yes, 0 if no`,
+                            ess_measure                  = `How is ES measured : directly(1);       With a proxy population variable (size of bees population) (2); with habitat (3)`,
+                            ess_type                     = `What ES : provision (1), regulation (2) or cultural (3)?`,
+                            paper_empirical              = `Empirical paper (1=Yes,0)`,
+                            method_static                = `Static (1=Yes, 0=No), not applicable 100`,
+                            method_resolution            = `Resolution method : closed form (0) vs numerical (1) vs not applicable (100)`,
+                            method_spatial               = `Spatial : explicit, with dispersal (0); Implicit - mention of potential heterogeneity (1);Absent (2)`,
+                            positive_normative           = `Positive or normative analysis (1,2), not applicable 100`,
+                            comments                     = `Any comment`,
+                            keywords                     = `Keywords for bibliographical research`,
+                            keywords2                    = `Keywords for bibliographical research_2`,
+                            species_2                    = `Single or multiple species`,
+                            ecological_model             = `Type of ecological model`, 
+                            stoch_ecol                   = `Stochasticity? Ecological`,
+                            partial_general              = `Partial or general equilibrium`,
+                            affiliation_class            = `Affiliation Class`)
+
+authors <- df2$Author
+
+last_last_name <- gsub("^.* ", "", authors)
+last_last_name <- unlist(lapply(last_last_name,tolower))
+
+table(last_last_name)
+
+# Generate a single unique id :
+ids <- c(1:length(unique(last_last_name)))
+generate_ids <- data.frame(ids, unique(last_last_name))
+colnames(generate_ids) <- c('id','last_name')
+
+# Assign a single unique value for id and last name
+ids_df <- c()
+last_names <- c()
+for (x in c(1:nrow(df2))){
+  name = as.character(df2[x,2])
+  name_split = tolower(gsub("^.* ", "", name))
+  last_names= append(last_names, name_split)
+  
+  id_ = as.integer(generate_ids %>% subset(last_name == name_split) %>% select(id))
+  ids_df = append(ids_df, id_)
+}
+
+# Add to dataframe
+df2$id_unique_author = ids_df
+df2$last_names_author = last_names
+
+write.csv(df2_ready,paste0(getwd(),'/data/full_db_with_authors.csv'))
+
+
+
+# Table to get occurence
+occurences = data.frame(table(df2$last_names_author))
+occurences = occurences %>% arrange(desc(Freq))
