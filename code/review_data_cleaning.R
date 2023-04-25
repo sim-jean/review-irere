@@ -1,7 +1,8 @@
 ######################################################################################################################
 ############## REVIEW : DATA COLLECTION AND CLEANING #################################################################
 ######################################################################################################################
-setwd("/Users/simonjean/Desktop/PhD/Projects/Review_Lauriane/Code_data")
+current_file <- getwd()
+setwd(current_file)
 rm(list=ls())
 
 ### 0. Package set-up ####
@@ -162,4 +163,5 @@ df2_ready$affiliation_class  <- recode(df2_ready$affiliation_class,
 ## Data storage #####
 
 write_xlsx(df2_ready, path="/Users/simonjean/Desktop/PhD/Projects/Review_Lauriane/Code_data/data/data_cleared.xlsx")
+
 

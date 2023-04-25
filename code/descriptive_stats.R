@@ -267,7 +267,7 @@ for (x in c(1:nrow(df2))){
 df2$id_unique_author = ids_df
 df2$last_names_author = last_names
 
-write.csv(df2_ready,paste0(getwd(),'/data/full_db_with_authors.csv'))
+write.csv(df2,paste0(getwd(),'/data/full_db_with_authors.csv'))
 
 
 
