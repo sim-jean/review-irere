@@ -13,13 +13,13 @@ For easy access to our paper, please find it here: https://tinyurl.com/y7p87uau
 ## Instructions for replication
 
 Necessary data are : 
-- df2.xlsx and df2b.xlsx for the database of articles (in 2 parts)
+- `df2.xlsx` and `df2b.xlsx` for the database of articles (in 2 parts)
 
   The database is shared under Creative Commons licence with DOI 10.1561/101.00000131 (see https://zenodo.org/record/6656433#.Yqxw7aC3seE.link)
   
   Please note that additional data regarding the living species considered (according to biological classfication), a finer geographic scale for authors    etc. are featured in the database
   
-- base_modified.rtf for the words from titles, keywords and abstracts of articles in the database
+- `base_modified.rtf` for the words from titles, keywords and abstracts of articles in the database
 
 Run the R scripts to obtain the results from the paper and additional analysis
 
